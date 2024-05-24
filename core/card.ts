@@ -15,12 +15,30 @@ export default class Card {
 
   player: Player;
   duel: Duel;
+  rawData: CardRawData;
 
   // load into deck
-  constructor({ duel }) {
+  constructor({ duel, card }) {
     this.duel = duel;
     this.player = duel.player;
+    this.rawData = card;
   }
+
+  status: {
+    data: {
+      name: string;
+      level?: number;
+      rank?: number;
+      attack?: number;
+      defend?: number;
+      type: CARD_TYPE;
+    };
+  };
+
+  // reset card status
+  reset() {}
+
+  handleLifeHook(event: string) {}
 }
 
 
@@ -110,11 +128,11 @@ export interface CardRawData {
 
 export function createCard(card: CardRawData, { duel }: { duel: Duel }) {
   if (card?.data?.type === CARD_TYPE.MONSTER) {
-    return new Monster({ duel });
+    return new Monster({ duel, card });
   } else if (card?.data?.type === CARD_TYPE.SPELL) {
-    return new Spell({ duel });
+    return new Spell({ duel, card });
   } else if (card?.data?.type === CARD_TYPE.TRAP) {
-    return new Spell({ duel });
+    return new Spell({ duel, card });
   } else {
     throw new Error(`unknown card type ${card?.data?.type}`);
   }

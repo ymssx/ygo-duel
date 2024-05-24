@@ -14,11 +14,9 @@ export default {
   // 生命周期
   lifecycle: {
     addHand: {
-      before: ({ entity }) => {
+      condition: ({ entity }) => {
         const hands = new Set(entity.controller.hands.map(item => item.id));
-        return {
-          allow: ['6666', '7777', '8888', '9999'].every(item => hands.has(item)),
-        };
+        return ['6666', '7777', '8888', '9999'].every(item => hands.has(item));
       },
       effect: ({ duel }) => {
         duel.win();
@@ -28,12 +26,10 @@ export default {
   // 诱发效果
   on: {
     addHand: {
-      before({ entity, duel }) {
+      condition({ entity, duel }) {
         if (entity === duel.self) {
           const hands = new Set(entity.hands.map(item => item.id));
-          return {
-            allow: ['6666', '7777', '8888', '9999'].every(item => hands.has(item)),
-          };
+          return ['6666', '7777', '8888', '9999'].every(item => hands.has(item));
         }
       },
       effect: ({ duel }) => {

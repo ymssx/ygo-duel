@@ -16,11 +16,9 @@ export default {
   lifecycle: {
     summon: {
       cost: ({ controller }) => controller.drop({ num: 1 }),
-      before: async ({ duel }) => ({
-        target: await duel.userTarget({
-          range: duel.opponent.fields.getMonsters({ status: 'face-up' }),
-          num: 1,
-        }),
+      target: ({ duel }) => duel.userTarget({
+        range: duel.opponent.fields.getMonsters({ status: 'face-up' }),
+        num: 1,
       }),
       effect: ({ target, entity, controller }) => {
         target.distroy({ type: 'effect', source: entity });
